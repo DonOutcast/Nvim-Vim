@@ -1,3 +1,4 @@
+
 " Disable vi compatibility
 if !has("nvim")
 	set nocompatible
@@ -22,9 +23,9 @@ set smartcase
 nnoremap ,<space> :nohlsearch<CR>
 
 " Netrw file explorer settings
-let g:netrw_banner = 0 " hide banner above files
-let g:netrw_liststyle = 3 " tree instead of plain view
-let g:netrw_browse_split = 3 " open file in new tab
+" let g:netrw_banner = 0 " hide banner above files
+" let g:netrw_liststyle = 3 " tree instead of plain view
+" let g:netrw_browse_split = 3 " open file in new tab
 
 " Status line stuff
 set laststatus=2
@@ -41,12 +42,12 @@ set cursorline
 set nocursorcolumn
 
 " Resize windows
-if bufwinnr(1)
-	map + :resize +1<CR>
-	map - :resize -1<CR>
-	map < :vertical resize +1<CR>
-	map > :vertical resize -1<CR>
-endif
+"if bufwinnr(1)
+"	map + :resize +1<CR>
+"	map - :resize -1<CR>
+"	map < :vertical resize +1<CR>
+"	map > :vertical resize -1<CR>
+"endif
 
 set wildmenu
 
@@ -76,6 +77,23 @@ Plug 'jiangmiao/auto-pairs'
 " Statusbar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+Plug 'tpope/vim-commentary'
+
+" Class/module browser
+Plug 'majutsushi/tagbar'      
+
+" Icons
+Plug 'ryanoasis/vim-devicons'  
+
+" Project and file navigation
+Plug 'preservim/nerdtree'
+
+" File colors for NERDTree
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -110,4 +128,147 @@ call airline#parts#define_accent('mode', 'black')
 
 command! -nargs=* Find :execute 'Telescope find_files grep_word='.shellescape(<q-args>)
 
+autocmd BufRead,BufNewFile *.py :autocmd FileType python nnoremap <buffer> <F5> :w<CR>:!python %<CR>
 
+
+"=====================================================
+"" TagBar settings
+"=====================================================
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_width = 40
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_show_linenumbers = 2
+
+let g:tagbar_symbols = {
+    \ 'class': 'c',
+    \ 'enum': 'e',
+    \ 'enumitem': 'i',
+    \ 'field': 'f',
+    \ 'function': 'F',
+    \ 'interface': 'I',
+    \ 'macro': 'm',
+    \ 'member': 'M',
+    \ 'method': 'M',
+    \ 'namespace': 'n',
+    \ 'struct': 's',
+    \ 'template': 't',
+    \ 'type': 'T',
+    \ 'variable': 'v'
+\ }
+
+
+let g:tagbar_type_cpp = {
+    \ 'kinds': [
+        \ 'c:classes',
+        \ 'd:macros',
+        \ 'e:enumerations',
+        \ 'f:functions',
+        \ 'g:enums',
+        \ 'l:local',
+        \ 'm:members',
+        \ 'n:namespaces',
+        \ 'p:function_prototypes',
+        \ 's:structs',
+        \ 't:typedefs',
+        \ 'u:unions',
+        \ 'v:global_variables'
+    \ ]
+\ }
+
+"=====================================================
+"" DevIcon Settings
+"=====================================================
+" loading the plugin 
+let g:webdevicons_enable = 1
+
+" adding the flags to NERDTree 
+let g:webdevicons_enable_nerdtree = 1
+
+" adding to vim-airline's tabline
+let g:webdevicons_enable_airline_tabline = 1
+
+" adding to vim-airline's statusline
+let g:webdevicons_enable_airline_statusline = 1
+
+" turn on/off file node glyph decorations (not particularly useful)
+let g:WebDevIconsUnicodeDecorateFileNodes = 1
+
+" use double-width(1) or single-width(0) glyphs 
+" only manipulates padding, has no effect on terminal or set(guifont) font
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+
+" whether or not to show the nerdtree brackets around flags 
+let g:webdevicons_conceal_nerdtree_brackets = 1
+
+" the amount of space to use after the glyph character (default ' ')
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+
+" Force extra padding in NERDTree so that the filetype icons line up vertically
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1 
+
+" change the default character when no match found
+let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = 'ƛ'
+
+" set a byte character marker (BOM) utf-8 symbol when retrieving file encoding
+" disabled by default with no value
+let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = ''
+
+" enable folder/directory glyph flag (disabled by default with 0)
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+
+" enable open and close folder/directory glyph flags (disabled by default with 0)
+let g:DevIconsEnableFoldersOpenClose = 1
+
+" enable pattern matching glyphs on folder/directory (enabled by default with 1)
+let g:DevIconsEnableFolderPatternMatching = 1
+
+" enable file extension pattern matching glyphs on folder/directory (disabled by default with 0)
+let g:DevIconsEnableFolderExtensionPatternMatching = 0
+
+
+
+" Enable file icons in netrw
+let g:netrw_liststyle = 3
+let g:netrw_list_hide = '^\..*'
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_preview = 1
+let g:netrw_preview_maxheight = 30
+let g:netrw_preview_maxwidth = 80
+let g:netrw_list_hide .= '\|pycache__\|__init.py\|.*\~$'
+let g:netrw_special_syntax_highlight = 1
+let g:netrw_user_nerd_fonts = 1
+
+"=====================================================
+"" NERDTree settings
+"=====================================================
+let NERDTreeIgnore=['\.pyc$', '\.pyo$', '__pycache__$']     " Ignore files in NERDTree
+let NERDTreeWinSize=40
+nmap " :NERDTreeToggle<CR>
+
+"=====================================================
+"" NERDComment Settings 
+"=====================================================
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
